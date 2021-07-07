@@ -1,0 +1,566 @@
+---
+version: 1
+endpoint: http://127.0.0.1:7767/api/v1 # Development endpoint
+ingredients:
+  # .-------.
+  # | Input |
+  # .-------.
+
+  # -----------------------------------------------------
+  - name: Domain
+    id: input/text
+    category: input
+    aliases: [input, target]
+    description: Target Domain (i.e example.com)
+    outputs:
+      - name: domain
+        type: domains
+    controls:
+      - name: domain
+        type: input
+        options:
+          type: domains
+          placeholder: example.com
+    code: |
+      outputs["domain"] = node.data["domain"]
+  # -----------------------------------------------------
+  - name: URL
+    id: input/url
+    category: input
+    aliases: [input, target]
+    description: Target URL (i.e http://example.com)
+    outputs:
+      - name: url
+        type: urls
+    controls:
+      - name: url
+        type: input
+        options:
+          type: urls
+          placeholder: http://example.com
+    code: |
+      outputs["url"] = node.data["url"]
+  # -----------------------------------------------------
+  - name: Text
+    id: input/text
+    category: input
+    aliases: [input, string]
+    description: Custom text
+    outputs:
+      - name: text
+        type: text
+    controls:
+      - name: text
+        type: area
+    code: |
+      outputs["text"] = node.data["text"]
+  # -----------------------------------------------------
+
+  # .------------.
+  # | Conversion |
+  # .------------.
+
+  # -----------------------------------------------------
+  - name: Append to URL
+    id: conversion/appendtourl
+    category: conversion
+    aliases: [conversion, path]
+    description: Adds a suffix to the URL
+    inputs:
+      - name: url(s)
+        type: urls
+      - name: suffix(es)
+        type: text
+    outputs:
+      - name: url(s)
+        type: urls
+    code: |
+      let urls = [];
+      let suffixes = inputs["suffix(es)"].split("\n").filter((suffix) => suffix !== "");
+      if(!suffixes.length) suffixes = [""];
+      inputs["url(s)"].forEach(
+        (url) => suffixes.forEach(
+          (suffix) => urls.push(url.concat(suffix))
+        )
+      );
+      outputs["url(s)"] = urls;
+  # -----------------------------------------------------
+  - name: Query replace
+    id: conversion/queryreplace
+    category: conversion
+    aliases: [conversion, params, parameters]
+    description: Replaces all query string values with a user-supplied value
+    inputs:
+      - name: url(s)
+        type: urls
+    outputs:
+      - name: url(s)
+        type: urls
+    controls:
+      - name: append
+        type: check
+      - name: value
+        type: input
+        options:
+          placeholder: parameter
+    code: |
+      const value = node.data["value"];
+      const append = node.data["append"];
+      outputs["url(s)"] = inputs["url(s)"].map((url) => {
+        const u = new URL(url);
+        const params = u.search.split("&").map((param) => {
+          const v = param.split("=");
+          if(v.length === 2) {
+            return append ? `${v[0]}=${v[1]}${value}` : `${v[0]}=${value}`;
+          }
+          return param;
+        });
+        return u.href.split("?")[0] + params.join("&");
+      })
+  # -----------------------------------------------------
+
+  # .---------------------.
+  # | Stealth Enumeration |
+  # .---------------------.
+
+  # -----------------------------------------------------
+  - name: Spider
+    id: stealthenumeration/spider
+    category: stealth enumeration
+    aliases: [assets, crawler]
+    description: Enumerates public assets using public APIs
+    inputs:
+      - name: domain(s)
+        type: domains
+    outputs:
+      - name: url(s)
+        type: urls
+      - name: error(s)
+        type: errors
+    controls:
+      - name: subdomains
+        type: check
+        options:
+          label: include subdomains
+      - name: provider
+        type: options
+        options:
+          initial: 2
+          values:
+            - AlienVault
+            - CommonCrawl
+            - WaybackMachine
+    code: |
+      const params = { domains: inputs["domain(s)"], includeSubdomains: node.data["subdomains"], provider: node.data["provider"] };
+      const response = await call(`${endpoint}/stealth/spider`, params);
+      if(response.status !== 200) {
+        console.error("Bad request", response);
+        outputs["error(s)"] = `Bad request. Status code: ${response.status}`;
+      } else {
+        const data = await response.json();
+        outputs["url(s)"] = data.links;
+        outputs["error(s)"] = data.warnings;
+      }
+  # -----------------------------------------------------
+  - name: Subdomainer
+    id: stealthenumeration/subdomainer
+    category: stealth enumeration
+    aliases: [assets, subdomains]
+    description: Enumerates subdomains using public APIs
+    inputs:
+      - name: domain(s)
+        type: domains
+    outputs:
+      - name: domain(s)
+        type: domains
+      - name: error(s)
+        type: errors
+    controls:
+      - name: provider
+        type: options
+        options:
+          initial: 1
+          values:
+            - HackerTarget
+            - Omnisint
+    code: |
+      const params = { domains: inputs["domain(s)"], provider: node.data["provider"] };
+      const response = await call(`${endpoint}/stealth/subdomainer`, params);
+      if(response.status !== 200) {
+        console.error("Bad request", response);
+        outputs["error(s)"] = `Bad request. Status code: ${response.status}`;
+      } else {
+        const data = await response.json();
+        outputs["domain(s)"] = data.subdomains;
+        outputs["error(s)"] = data.warnings;
+      }
+  # -----------------------------------------------------
+
+  # .------.
+  # | HTTP |
+  # .------.
+
+  # -----------------------------------------------------
+  - name: Request
+    id: http/request
+    category: HTTP
+    aliases: [http, fetch, get, post, patch, put, head, options, delete]
+    description: Makes an HTTP request
+    inputs:
+      - name: method
+        type: text
+        control:
+          type: input
+          options:
+            default: GET
+            placeholder: method
+      - name: url(s)
+        type: urls
+      - name: proxy
+        type: urls
+        optional: true
+      - name: headers
+        type: map
+        optional: true
+    outputs:
+      - name: response(s)
+        type: responses
+      - name: error(s)
+        type: errors
+    controls:
+      - name: redirect
+        type: check
+        options:
+          label: follow redirects
+    code: |
+      const params = { urls: inputs["url(s)"] };
+      params.method = inputs["method"] || "GET";
+      params.headers = inputs["headers"] || {};
+      //params.proxy = inputs["proxy"] && inputs["proxy"].length ? inputs["proxy"][0] : "";
+      if(inputs["proxy"]) params.proxy = inputs["proxy"][0];
+      const response = await call(`${endpoint}/request`, params);
+      if(response.status !== 200) {
+        console.error("Bad request", response);
+        outputs["error(s)"] = `Bad request. Status code: ${response.status}`;
+      } else {
+        const data = await response.json();
+        outputs["error(s)"] = data.warnings;
+        outputs["response(s)"] = data.responses.map(
+          (response) => ({ ...response, status: +response.status, length: +response.length, body: atob(response.body) })
+        );
+      }
+  # -----------------------------------------------------
+  - name: Filter response
+    id: http/filter
+    category: HTTP
+    aliases: [filter, response, status code, body]
+    description: Filters responses by url, status, length or body
+    inputs:
+      - name: response(s)
+        type: responses
+    outputs:
+      - name: response(s)
+        type: responses
+    controls:
+      - name: field
+        type: options
+        options:
+          initial: 1
+          values:
+            - url
+            - status
+            - length
+            - headers
+            - body
+      - name: operator
+        type: options
+        options:
+          initial: 0
+          values:
+            - has
+            - doesn't have
+      - name: ignorecase
+        type: check
+      - name: value
+        type: input
+        options:
+          placeholder: filter
+    code: |
+      const field = node.data["field"];
+      const value = node.data["value"];
+      const ignorecase = node.data["ignorecase"];
+      const operator = node.data["operator"];
+      outputs["response(s)"] = inputs["response(s)"].filter((response) => {
+        let res = typeof response[field] === "object" ? JSON.stringify(response[field]) : `${response[field]}`;
+        if(ignorecase) res = res.toLowerCase();
+        switch(operator) {
+          case "has":           return res.includes(value);
+          case "doesn't have":  return !res.includes(value);
+          default:              return false;
+        }
+      });
+  # -----------------------------------------------------
+  - name: Extract from response
+    id: http/extract
+    category: HTTP
+    aliases: [get, urls, status, length, headers, body]
+    description: Extracts fields from the responses
+    inputs:
+      - name: response(s)
+        type: responses
+    outputs:
+      - name: url(s)
+        type: urls
+      - name: status
+        type: number
+      - name: length
+        type: number
+      - name: headers
+        type: map
+      - name: body
+        type: text
+    code: |
+      outputs["url(s)"] = inputs["response(s)"].map((response) => response.url);
+      outputs["status"] = inputs["response(s)"].map((response) => response.status);
+      outputs["length"] = inputs["response(s)"].map((response) => response.length);
+      outputs["headers"] = inputs["response(s)"].map((response) => response.headers);
+      outputs["body"] = inputs["response(s)"].map((response) => response.body);
+  # -----------------------------------------------------
+
+  # .--------.
+  # | Output |
+  # .--------.
+
+  # -----------------------------------------------------
+  - name: Console
+    id: output/console
+    category: output
+    aliases: [output, console.log]
+    description: Displays the value in the console
+    inputs:
+      - name: value
+        type: any
+    code: |
+      console.log(inputs["value"])
+  # -----------------------------------------------------
+  - name: Display
+    id: output/append
+    category: output
+    aliases: [output, show]
+    description: Displays the current value
+    inputs:
+      - name: value
+        type: any
+    controls:
+      - name: value
+        type: area
+        options:
+          readonly: true
+    code: |
+      let value = typeof inputs["value"] === "object" ? JSON.stringify(inputs["value"], null, 2) : inputs["value"];
+      if(!value.length || value === "[]") value = "*** Nothing to display ***";
+      if(value.length > 1000)
+        value = `Value too large. Please consider using the "Console" ingredient to display the full output.\n----------------\n${value.substring(0, 10000)}...`
+      controls.get("value").setValue(value);
+  # -----------------------------------------------------
+
+  # .------------.
+  # | OWASP WSTG |
+  # .------------.
+
+  # -----------------------------------------------------
+  - name: WSTG-INFO-01
+    category: OWASP WSTG
+    aliases: [owasp, information leakage, discovery]
+    description: Conduct Search Engine Discovery Reconnaissance for Information Leakage
+    clone: stealthenumeration/spider
+  # -----------------------------------------------------
+  - name: WSTG-INFO-02.1
+    category: OWASP WSTG
+    aliases: [owasp, fingerprint, banner, web server]
+    description: Fingerprint Web Server
+    inputs:
+      - name: response(s)
+        type: responses
+    outputs:
+      - name: url(s)
+        type: urls
+      - name: banner(s)
+        type: text
+    code: |
+      const urls = [];
+      const banners = [];
+      const criticalHeaders = ["Server", "X-Powered-By"];
+      inputs["response(s)"].forEach((response) => {
+        let found = false;
+        if(response.headers) {
+          criticalHeaders.forEach((header) => {
+            if(response.headers[header]) {
+              found = true;
+              if(!banners.includes(response.headers[header]))
+                banners.push(response.headers[header]);
+            }
+          });
+        }
+        if(found) urls.push(response.url);
+      });
+      outputs["url(s)"] = urls;
+      outputs["banner(s)"] = banners.join("\n");
+  # -----------------------------------------------------
+  - name: WSTG-INFO-03
+    category: OWASP WSTG
+    aliases: [owasp, information leakage, metafiles, web server]
+    description: Review Webserver Metafiles for Information Leakage
+    inputs:
+      - name: domain(s)
+        type: domains
+    outputs:
+      - name: url(s)
+        type: urls
+    code: |
+      const urls = [];
+      const infolinks = [
+        "/robots.txt", "/humans.txt", "/sitemap.xml",
+        "/security.txt", "/.well-known/security.txt",
+      ];
+      inputs["domain(s)"].forEach((domain) => infolinks.forEach((link) => {
+        urls.push(`http://${domain}${link}`);
+        urls.push(`https://${domain}${link}`);
+      }))
+      let links = [];
+      const response = await call(`${endpoint}/request`, { urls, method: "GET" });
+      if(response.status === 200) {
+        const data = await response.json();
+        links = data.responses
+          .filter((response) => response.status === 200)
+          .map((response) => response.url)
+      }
+      outputs["url(s)"] = links;
+  # -----------------------------------------------------
+  - name: WSTG-INFO-04.1
+    category: OWASP WSTG
+    aliases: [owasp, information leakage, enumerate, web applications]
+    description: Enumerate Applications on Webserver using Different Base URL
+    inputs:
+      - name: domain(s)
+        type: domains
+    outputs:
+      - name: url(s)
+        type: urls
+    code: |
+      const urls = [];
+      const applinks = [
+        "/grafana", "/zm", "/pandora_console",
+        "/kibana", "/swagger", "/nessus"
+      ];
+      inputs["domain(s)"].forEach((domain) => applinks.forEach((link) => {
+        urls.push(`http://${domain}${link}`);
+        urls.push(`https://${domain}${link}`);
+      }));
+      let links = [];
+      const response = await call(`${endpoint}/request`, { urls, method: "GET" });
+      if(response.status === 200) {
+        const data = await response.json();
+        links = data.responses
+          .filter((response) => response.status === 200)
+          .map((response) => response.url)
+      }
+      outputs["url(s)"] = links;
+  # -----------------------------------------------------
+  - name: WSTG-INFO-04.2
+    category: OWASP WSTG
+    aliases:
+      [owasp, information leakage, enumerate, web applications, web server]
+    description: Enumerate Applications on Webserver using Non-standard ports
+    inputs:
+      - name: domain(s)
+        type: domains
+    outputs:
+      - name: url(s)
+        type: urls
+    code: |
+      const urls = [];
+      const commonports = [81,8000,8001,8080,8081,8443,8888,9000,9999];
+      inputs["domain(s)"].forEach((domain) => commonports.forEach((port) => {
+        urls.push(`http://${domain}:${port}/`);
+        urls.push(`https://${domain}:${port}/`);
+      }));
+      let links = [];
+      const response = await call(`${endpoint}/request`, { urls, method: "GET" });
+      if(response.status === 200) {
+        const data = await response.json();
+        links = data.responses
+          .filter((response) => response.status === 200)
+          .map((response) => response.url)
+      }
+      outputs["url(s)"] = links;
+  # -----------------------------------------------------
+  - name: WSTG-INFO-04.3
+    category: OWASP WSTG
+    aliases:
+      [
+        owasp,
+        information leakage,
+        enumerate,
+        web applications,
+        web server,
+        virtual hosts,
+      ]
+    description: Enumerate Applications on Webserver using Virtual Hosts
+    inputs:
+      - name: domain(s)
+        type: domains
+    outputs:
+      - name: domain(s)
+        type: domains
+      - name: error(s)
+        type: errors
+    code: |
+      let ips = [];
+      let err = [];
+      let domains = [];
+      const resIP = await call(`${endpoint}/lookup/ip`, { domains: inputs["domain(s)"] });
+      if(resIP.status === 200) {
+        const data = await resIP.json();
+        ips = data.ips;
+        err = data.warnings;
+      }
+      if(ips.length) {
+        const resDNS = await call(`${endpoint}/lookup/dns`, { ips });
+        if(resDNS.status === 200) {
+          const data = await resDNS.json();
+          domains = data.domains;
+          err = [...err, ...data.warnings];
+        }
+      }
+      outputs["domain(s)"] = domains;
+      outputs["error(s)"] = err;
+  # -----------------------------------------------------
+  - name: WSTG-INFO-05
+    category: OWASP WSTG
+    aliases: [owasp, information leakage, comments, web content]
+    description: Review Webpage Content for Information Leakage
+    inputs:
+      - name: response(s)
+        type: responses
+    outputs:
+      - name: url(s)
+        type: urls
+      - name: comment(s)
+        type: text
+    code: |
+      const urls = [];
+      let comments = [];
+      inputs["response(s)"].forEach((response) => {
+        if(!response.body) return;
+        const html = response.body.match(/<!--.*?-->/g); 
+        if(html) comments = [...comments, ...html];
+        const css = response.body.match(/\/\*.*?\*\//g); 
+        if(css) comments = [...comments, ...css];
+        const js = response.body.match(/\/\/.*?\\n/g);
+        if(js) comments = [...comments, ...js.map((comment) => comment.trim())];
+        if(html || css || js) urls.push(response.url)
+      });
+      outputs["url(s)"] = urls;
+      outputs["comment(s)"] = comments;
+  # -----------------------------------------------------

@@ -1,0 +1,26 @@
+{
+  "name": "masterchef",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "vue-cli-service serve",
+    "patch": "node patches.js",
+    "build": "yarn run patch && vue-cli-service build",
+    "compile": "yarn build && node compile.js"
+  },
+  "dependencies": {
+    "core-js": "^3.14.0",
+    "regenerator-runtime": "^0.13.7",
+    "rete": "^1.4.5-rc.1",
+    "rete-connection-plugin": "^0.9.0",
+    "vue": "^2.6.11",
+    "vue-material-design-icons": "^4.11.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "json-loader": "^0.5.7",
+    "vue-template-compiler": "^2.6.11",
+    "yaml-loader": "^0.6.0"
+  }
+}

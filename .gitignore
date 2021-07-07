@@ -1,0 +1,5 @@
+# Files
+/**/*.log
+# Folders
+/**/dist/
+/**/node_modules/

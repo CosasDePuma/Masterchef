@@ -1,0 +1,349 @@
+swagger: "2.0"
+# ---- INFO ----
+info:
+  title: "Masterchef"
+  description: "Masterchef API Documentation"
+  version: "1.0.0"
+  contact:
+    name: "Kike Fontán (@CosasDePuma)"
+    url: "kike.wtf"
+    email: "hola@kike.wtf"
+# ---- CONF ----
+basePath: "/api/v1"
+consumes: ["application/json"]
+produces: ["application/json"]
+# ---- TAGS ----
+tags:
+  - name: "WTF?"
+    description: "Weird stuff..."
+  - name: "Basic"
+    description: "operations"
+  - name: "Lookup"
+    description: "operations"
+  - name: "Stealth enumeration"
+    description: "using OSINT tools"
+# ---- PATH ----
+paths:
+  # Basic
+  "/request":
+    post:
+      tags: ["Basic"]
+      summary: "HTTP Request"
+      description: "**Performs an HTTP request against the specified URL.**\n\nDefault headers:\n- **Connection**: close\n- **Accept-Enconding**: gzip"
+      parameters:
+        - in: "header"
+          name: "X-Powered-By"
+          required: true
+          schema:
+            type: "string"
+            example: "Masterchef!"
+        - in: "body"
+          name: "urls"
+          description: "Target url(s)"
+          required: true
+          schema:
+            $ref: "#/definitions/urls"
+        - in: "body"
+          name: "method"
+          description: "HTTP Method"
+          schema:
+            $ref: "#/definitions/method"
+        - in: "body"
+          name: "proxy"
+          description: "Custom proxy"
+          schema:
+            $ref: "#/definitions/proxy"
+        - in: "body"
+          name: "headers"
+          description: "Custom headers"
+          schema:
+            $ref: "#/definitions/headers"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              urls:
+                description: "Requested urls"
+                $ref: "#/definitions/urls"
+              responses:
+                type: "array"
+                description: "Responses"
+                items:
+                  type: "object"
+                  properties:
+                    url:
+                      type: "string"
+                      example: "http://example.com"
+                    status:
+                      type: "integer"
+                      description: "Response status code"
+                      example: 200
+                    length:
+                      type: "integer"
+                      description: "Response length"
+                      example: 648
+                    headers:
+                      type: "object"
+                      description: "Response headers"
+                      example: "{\"Accept-Ranges\":\"bytes\",\"Age\":\"187604\",\"Cache-Control\":\"max-age=604800\",\"Content-Encoding\":\"gzip\",\"Content-Length\":\"648\",\"Content-Type\":\"text/html; charset=UTF-8\",\"Date\":\"Sat, 05 Jun 2021 17:53:19 GMT\",\"Etag\":\"\\\"3147526947\\\"\",\"Expires\":\"Sat, 12 Jun 2021 17:53:19 GMT\",\"Last-Modified\":\"Thu, 17 Oct 2019 07:18:26 GMT\",\"Server\":\"ECS (dcb/7ECA)\",\"Vary\":\"Accept-Encoding\",\"X-Cache\":\"HIT\"}"
+                    body:
+                      type: "string"
+                      description: "Body encoded in base64"
+                      example: "PCFkb2N0eXBlIGh0bWw+CjxodG1sPgo8aGVhZD4KICAgIDx0aXRsZT5FeGFtcGxlIERvbWFpbjwvdGl0bGU+CgogICAgPG1ldGEgY2hhcnNldD0idXRmLTgiIC8+CiAgICA8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LXR5cGUiIGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD11dGYtOCIgLz4KICAgIDxtZXRhIG5hbWU9InZpZXdwb3J0IiBjb250ZW50PSJ3aWR0aD1kZXZpY2Utd2lkdGgsIGluaXRpYWwtc2NhbGU9MSIgLz4KICAgIDxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CiAgICBib2R5IHsKICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZjBmMGYyOwogICAgICAgIG1hcmdpbjogMDsKICAgICAgICBwYWRkaW5nOiAwOwogICAgICAgIGZvbnQtZmFtaWx5OiAtYXBwbGUtc3lzdGVtLCBzeXN0ZW0tdWksIEJsaW5rTWFjU3lzdGVtRm9udCwgIlNlZ29lIFVJIiwgIk9wZW4gU2FucyIsICJIZWx2ZXRpY2EgTmV1ZSIsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWY7CiAgICAgICAgCiAgICB9CiAgICBkaXYgewogICAgICAgIHdpZHRoOiA2MDBweDsKICAgICAgICBtYXJnaW46IDVlbSBhdXRvOwogICAgICAgIHBhZGRpbmc6IDJlbTsKICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZmRmZGZmOwogICAgICAgIGJvcmRlci1yYWRpdXM6IDAuNWVtOwogICAgICAgIGJveC1zaGFkb3c6IDJweCAzcHggN3B4IDJweCByZ2JhKDAsMCwwLDAuMDIpOwogICAgfQogICAgYTpsaW5rLCBhOnZpc2l0ZWQgewogICAgICAgIGNvbG9yOiAjMzg0ODhmOwogICAgICAgIHRleHQtZGVjb3JhdGlvbjogbm9uZTsKICAgIH0KICAgIEBtZWRpYSAobWF4LXdpZHRoOiA3MDBweCkgewogICAgICAgIGRpdiB7CiAgICAgICAgICAgIG1hcmdpbjogMCBhdXRvOwogICAgICAgICAgICB3aWR0aDogYXV0bzsKICAgICAgICB9CiAgICB9CiAgICA8L3N0eWxlPiAgICAKPC9oZWFkPgoKPGJvZHk+CjxkaXY+CiAgICA8aDE+RXhhbXBsZSBEb21haW48L2gxPgogICAgPHA+VGhpcyBkb21haW4gaXMgZm9yIHVzZSBpbiBpbGx1c3RyYXRpdmUgZXhhbXBsZXMgaW4gZG9jdW1lbnRzLiBZb3UgbWF5IHVzZSB0aGlzCiAgICBkb21haW4gaW4gbGl0ZXJhdHVyZSB3aXRob3V0IHByaW9yIGNvb3JkaW5hdGlvbiBvciBhc2tpbmcgZm9yIHBlcm1pc3Npb24uPC9wPgogICAgPHA+PGEgaHJlZj0iaHR0cHM6Ly93d3cuaWFuYS5vcmcvZG9tYWlucy9leGFtcGxlIj5Nb3JlIGluZm9ybWF0aW9uLi4uPC9hPjwvcD4KPC9kaXY+CjwvYm9keT4KPC9odG1sPgo="
+              warnings:
+                type: "array"
+                items:
+                  type: "string"
+                example: []
+        406:
+          description: "No required arguments"
+  # Lookup
+  "/lookup/dns":
+    post:
+      tags: ["Lookup"]
+      summary: "Reverse DNS lookup"
+      description: "**Gets DNS from IP addresses**"
+      parameters:
+        - in: "header"
+          name: "X-Powered-By"
+          required: true
+          schema:
+            type: "string"
+            example: "Masterchef!"
+        - in: "body"
+          name: "ips"
+          description: "Target IPs"
+          required: true
+          schema:
+            $ref: "#/definitions/ips"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              ips:
+                description: "Target IPs"
+                $ref: "#/definitions/ips"
+              domains:
+                type: "array"
+                items:
+                  type: "string"
+                description: "Related domains"
+                example:
+                  - "dns.google"
+              warnings:
+                type: "array"
+                items:
+                  type: "string"
+                example: []
+        406:
+          description: "No arguments or bad provider"
+  "/lookup/ip":
+    post:
+      tags: ["Lookup"]
+      summary: "IP lookup"
+      description: "**Gets IPs from domains**"
+      parameters:
+        - in: "header"
+          name: "X-Powered-By"
+          required: true
+          schema:
+            type: "string"
+            example: "Masterchef!"
+        - in: "body"
+          name: "domains"
+          description: "Target domains"
+          required: true
+          schema:
+            $ref: "#/definitions/domains"
+        - in: "body"
+          name: "onlyv4"
+          description: "Only returns IPv4"
+          schema:
+            type: "boolean"
+            example: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              domains:
+                description: "Target domains"
+                $ref: "#/definitions/domains"
+              ips:
+                type: "array"
+                items:
+                  type: "string"
+                description: "Related IPs"
+                example:
+                  - "93.184.216.34"
+              warnings:
+                type: "array"
+                items:
+                  type: "string"
+                example: []
+        406:
+          description: "No arguments or bad provider"
+  # Stealth Enumeration
+  "/stealth/spider":
+    post:
+      tags: ["Stealth enumeration"]
+      summary: "Finds links for the specified domain"
+      description: "**Finds links for the specified domain, using public APIs**\n\nThis method does not log activity in the target domain, but depends on the availability of the used API."
+      parameters:
+        - in: "header"
+          name: "X-Powered-By"
+          required: true
+          schema:
+            type: "string"
+            example: "Masterchef!"
+        - in: "body"
+          name: "domains"
+          description: "Target domains"
+          required: true
+          schema:
+            $ref: "#/definitions/domains"
+        - in: "body"
+          name: "provider"
+          description: "Public API"
+          required: true
+          schema:
+            type: string
+            example: "alienvault"
+        - in: "body"
+          name: "includeSubdomains"
+          description: "Include the domain and its subdomains"
+          schema:
+            type: "boolean"
+            example: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              domains:
+                description: "Target domains"
+                $ref: "#/definitions/domains"
+              links:
+                type: "array"
+                items:
+                  type: "string"
+                description: "Related links"
+                example:
+                  - "http://example.com:80/"
+                  - "http://example.com:80/!"
+                  - "http://www.example.com:80/!!"
+                  - "http://www.example.com:80/!/product"
+                  - "..."
+              warnings:
+                type: "array"
+                items:
+                  type: "string"
+                example: []
+        406:
+          description: "No arguments or bad provider"
+
+  "/stealth/subdomainer":
+    post:
+      tags: ["Stealth enumeration"]
+      summary: "Finds subdomains for the specified domain"
+      description: "**Finds subdomains for the specified domain, using public APIs**\n\nThis method does not log activity in the target domain, but depends on the availability of the used API."
+      parameters:
+        - in: "header"
+          name: "X-Powered-By"
+          required: true
+          schema:
+            type: "string"
+            example: "Masterchef!"
+        - in: "body"
+          name: "domains"
+          description: "Target domains"
+          required: true
+          schema:
+            $ref: "#/definitions/domains"
+        - in: "body"
+          name: "provider"
+          description: "Public API"
+          required: true
+          schema:
+            type: string
+            example: "hackertarget"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              domain:
+                type: "string"
+                description: "Target domain"
+                example: "example.com"
+              subdomains:
+                type: "array"
+                items:
+                  type: "string"
+                description: "Related subdomains"
+                example:
+                  - "example.com"
+                  - "www.example.com"
+              warnings:
+                type: "array"
+                items:
+                  type: "string"
+                example: []
+        406:
+          description: "No arguments or bad provider"
+  # WTF?
+  "/dummy":
+    post:
+      tags: ["WTF?"]
+      summary: "Useless endpoint"
+      description: "**Shows some random messages and jokes.**"
+      produces: ["plain/text"]
+      parameters:
+        - in: "header"
+          name: "X-Powered-By"
+          required: true
+          schema:
+            type: "string"
+            example: "Masterchef!"
+      responses:
+        418:
+          description: "I'm a teapot!"
+          schema:
+            type: string
+            example: "I was eavesdropping on two indian chefs talking...\nIt was a dhal conversation"
+# ---- DEFS ----
+definitions:
+  domains:
+    type: "array"
+    items:
+      type: "string"
+    example:
+      - "example.com"
+  urls:
+    type: "array"
+    items:
+      type: string
+    example:
+      - "http://example.com"
+  ips:
+    type: "array"
+    items:
+      type: string
+    example:
+      - "8.8.8.8"
+  method:
+    type: "string"
+    example: "GET"
+  headers:
+    type: "object"
+    example: '{"User-Agent": "Misterchof!"}'
+  proxy:
+    type: "string"
+    example: "http://localhost:8080/"

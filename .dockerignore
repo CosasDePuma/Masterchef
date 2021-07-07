@@ -1,0 +1,10 @@
+# Files
+/**/*.md
+/**/*.log
+/**/version
+/**/LICENSE
+/**/Makefile
+/**/swagger.yml
+# Folders
+/**/dist/
+/**/node_modules/

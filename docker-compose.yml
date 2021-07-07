@@ -1,0 +1,29 @@
+version: "3"
+services:
+  # App
+  masterchef:
+    container_name: masterchef
+    build: .
+    ports:
+      - 7767:7767
+  # Docs
+  swagger:
+    container_name: swagger
+    image: swaggerapi/swagger-ui
+    restart: on-failure
+    environment:
+      - SWAGGER_JSON=/app/swagger.yml
+    ports:
+      - 8081:8080
+    volumes:
+      - ./swagger.yml:/app/swagger.yml:ro
+  # Vulnerable App
+  #vulnapp:
+  #  container_name: vulnapp
+  #  image: webgoat/goatandwolf
+  #  restart: on-failure
+  #  environment:
+  #    - TZ=Europe/Madrid
+  #  ports:
+  #    - 9000:8080
+  #    - 9001:9090
