@@ -48,9 +48,9 @@ Click the button below to download the **Masterchef** binary.
 
 <div>
 &nbsp;&nbsp;&nbsp;
-<a href="https://github.com/cosasdepuma/Masterchef/releases/download/v0.1.0/masterchef-0.1.0.exe"><img alt="Windows" src="https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/download/windows.png" width="100" /></a>
-<a href="https://github.com/cosasdepuma/Masterchef/releases/download/v0.1.0/masterchef-0.1.0.app"><img alt="Mac" src="https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/download/macos.png" width="100" /></a>
-<a href="https://github.com/cosasdepuma/Masterchef/releases/download/v0.1.0/masterchef-0.1.0.elf"><img alt="Linux" src="https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/download/linux.png" width="100" /></a>
+<a href="https://github.com/cosasdepuma/Masterchef/releases/download/v0.1.0-tfg/masterchef-0.1.0.exe"><img alt="Windows" src="https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/download/windows.png" width="100" /></a>
+<a href="https://github.com/cosasdepuma/Masterchef/releases/download/v0.1.0-tfg/masterchef-0.1.0.dmg"><img alt="Mac" src="https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/download/macos.png" width="100" /></a>
+<a href="https://github.com/cosasdepuma/Masterchef/releases/download/v0.1.0-tfg/masterchef-0.1.0.elf"><img alt="Linux" src="https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/download/linux.png" width="100" /></a>
 <br><br>
 </div>
 
