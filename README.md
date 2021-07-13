@@ -143,4 +143,4 @@ If everything works correctly, the following interface will be shown:
 
 ## 📚 Examples
 
-You can find recipes with examples of functionality in the [cookbook](https://github.com/MasterchefFramework/Masterchef/tree/main/cookbook) folder.
+You can find recipes with examples of functionality in the [cookbook](https://github.com/CosasDePuma/Masterchef/tree/main/cookbook) folder.
