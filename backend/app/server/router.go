@@ -7,11 +7,11 @@ import (
 
 	"github.com/valyala/fasthttp"
 
-	"cosasdepuma/masterchef/app/config"
-	"cosasdepuma/masterchef/app/server/client"
-	"cosasdepuma/masterchef/app/server/middlewares"
-	"cosasdepuma/masterchef/app/server/routes"
-	"cosasdepuma/masterchef/public"
+	"github.com/cosasdepuma/masterchef/backend/app/config"
+	"github.com/cosasdepuma/masterchef/backend/app/server/client"
+	"github.com/cosasdepuma/masterchef/backend/app/server/middlewares"
+	"github.com/cosasdepuma/masterchef/backend/app/server/routes"
+	"github.com/cosasdepuma/masterchef/backend/public"
 )
 
 // API indicates the path and version relative to them

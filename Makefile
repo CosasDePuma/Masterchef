@@ -20,7 +20,7 @@ build: dist/$(APPNAME)-$(VERSION)
 	@upx -9 --ultra-brute $<
 
 dist/$(APPNAME)-$(VERSION): fmt $(OBJS)
-	@cd $(BACKEND) && $(CC) $(LDFLAGS) -a -o ../$@ main.go
+	$(CC) $(LDFLAGS) -a -o $@ main.go
 
 $(BACKEND)/public/index.go: FORCE $(FRONTEND)/node_modules $(FRONTEND)/package.json
 	@yarn --cwd $(FRONTEND) run compile
