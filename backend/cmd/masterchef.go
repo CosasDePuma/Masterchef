@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/cosasdepuma/masterchef/backend/app/config"
-	"github.com/cosasdepuma/masterchef/backend/app/server"
+	"github.com/cosasdepuma/misterchef/backend/app/config"
+	"github.com/cosasdepuma/misterchef/backend/app/server"
 )
 
 // Start the server

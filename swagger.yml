@@ -1,8 +1,8 @@
 swagger: "2.0"
 # ---- INFO ----
 info:
-  title: "Masterchef"
-  description: "Masterchef API Documentation"
+  title: "Misterchef"
+  description: "Misterchef API Documentation"
   version: "1.0.0"
   contact:
     name: "Kike Fontán (@CosasDePuma)"
@@ -36,7 +36,7 @@ paths:
           required: true
           schema:
             type: "string"
-            example: "Masterchef!"
+            example: "Misterchef!"
         - in: "body"
           name: "urls"
           description: "Target url(s)"
@@ -111,7 +111,7 @@ paths:
           required: true
           schema:
             type: "string"
-            example: "Masterchef!"
+            example: "Misterchef!"
         - in: "body"
           name: "ips"
           description: "Target IPs"
@@ -152,7 +152,7 @@ paths:
           required: true
           schema:
             type: "string"
-            example: "Masterchef!"
+            example: "Misterchef!"
         - in: "body"
           name: "domains"
           description: "Target domains"
@@ -200,7 +200,7 @@ paths:
           required: true
           schema:
             type: "string"
-            example: "Masterchef!"
+            example: "Misterchef!"
         - in: "body"
           name: "domains"
           description: "Target domains"
@@ -259,7 +259,7 @@ paths:
           required: true
           schema:
             type: "string"
-            example: "Masterchef!"
+            example: "Misterchef!"
         - in: "body"
           name: "domains"
           description: "Target domains"
@@ -311,7 +311,7 @@ paths:
           required: true
           schema:
             type: "string"
-            example: "Masterchef!"
+            example: "Misterchef!"
       responses:
         418:
           description: "I'm a teapot!"

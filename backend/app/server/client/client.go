@@ -5,7 +5,7 @@ import "github.com/valyala/fasthttp"
 // New client with default settings
 func New() *fasthttp.Client {
 	return &fasthttp.Client{
-		Name:                     "Masterchef!",
+		Name:                     "Misterchef!",
 		NoDefaultUserAgentHeader: true,
 	}
 }

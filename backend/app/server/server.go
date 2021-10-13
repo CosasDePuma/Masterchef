@@ -5,7 +5,7 @@ import (
 
 	"github.com/valyala/fasthttp"
 
-	"github.com/cosasdepuma/masterchef/backend/app/config"
+	"github.com/cosasdepuma/misterchef/backend/app/config"
 )
 
 // Start the backend server

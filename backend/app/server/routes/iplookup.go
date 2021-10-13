@@ -8,7 +8,7 @@ import (
 
 	"github.com/valyala/fasthttp"
 
-	"github.com/cosasdepuma/masterchef/backend/app/helpers"
+	"github.com/cosasdepuma/misterchef/backend/app/helpers"
 )
 
 type (

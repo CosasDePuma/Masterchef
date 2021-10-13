@@ -8,14 +8,14 @@ import { ingredients } from "@/ingredients";
 
 export async function createEditor(container) {
   // editor
-  const editor = new NodeEditor(`masterchef@${Masterchef.version}`, container);
+  const editor = new NodeEditor(`misterchef@${Misterchef.version}`, container);
   // plugins
   editor.use(PluginConnection);
   editor.use(PluginVue);
   editor.use(PluginEvents);
   editor.use(PluginControls);
   // engine
-  const engine = new Engine(`masterchef@${Masterchef.version}`);
+  const engine = new Engine(`misterchef@${Misterchef.version}`);
   // ingredients
   ingredients.forEach(function(ingredient) {
     editor.register(ingredient);

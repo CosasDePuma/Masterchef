@@ -10,7 +10,7 @@ import (
 	"github.com/valyala/fasthttp"
 	"github.com/valyala/fasthttp/fasthttpproxy"
 
-	"github.com/cosasdepuma/masterchef/backend/app/server/client"
+	"github.com/cosasdepuma/misterchef/backend/app/server/client"
 )
 
 type (

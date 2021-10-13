@@ -1,8 +1,8 @@
 version: "3"
 services:
   # App
-  masterchef:
-    container_name: masterchef
+  misterchef:
+    container_name: misterchef
     build: .
     ports:
       - 7767:7767

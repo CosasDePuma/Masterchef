@@ -1,12 +1,12 @@
 {
-  "name": "masterchef",
+  "name": "misterchef",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "vue-cli-service serve",
     "patch": "node patches.js",
-    "build": "yarn run patch && vue-cli-service build",
-    "compile": "yarn build && node compile.js"
+    "build": "npm run patch && vue-cli-service build",
+    "compile": "npm run build && node compile.js"
   },
   "dependencies": {
     "core-js": "^3.14.0",

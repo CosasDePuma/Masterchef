@@ -1,8 +1,8 @@
 <div align="center">
-  <a href="https://github.com/cosasdepuma/Masterchef">
-    <img alt="Logo" src="https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/gophers/masterchef.svg" width="300"/>
+  <a href="https://github.com/cosasdepuma/Misterchef">
+    <img alt="Logo" src="https://github.com/cosasdepuma/Misterchef/raw/main/.github/README/gophers/misterchef.svg" width="300"/>
   </a>
-  <h1>Masterchef Framework</h1>
+  <h1>Misterchef Framework</h1>
   <h3>👨‍🍳 The most delicious pentesting tool 👩‍🍳</h3>
 
   <h4>Under development...</h4>
@@ -10,10 +10,10 @@
 <br/>
 
 <a href="#">
-  <img alt="Cooker" src="https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/gophers/cooker.svg" height="120" align="left"/>
+  <img alt="Cooker" src="https://github.com/cosasdepuma/Misterchef/raw/main/.github/README/gophers/cooker.svg" height="120" align="left"/>
 </a>
 
-**Masterchef** is a graphical vulnerability exploitation and validation tool that helps you break down your penetration testing workflow by creating tasty recipes.
+**Misterchef** is a graphical vulnerability exploitation and validation tool that helps you break down your penetration testing workflow by creating tasty recipes.
 
 It is the ideal tool for getting started in the world of offensive cybersecurity. Visual, intuitive, customizable and with a lot of delicious ingredients! _So yummy!_
 
@@ -21,6 +21,7 @@ It is the ideal tool for getting started in the world of offensive cybersecurity
 
 ## 🍱 Table of contents
 
+- [Honorary mention](#-honorary-mention)
 - [Disclaimer](#-disclaimer)
 - [Download and install](#-download-and-install)
   - [Compiled version](#-compiled-version)
@@ -29,6 +30,10 @@ It is the ideal tool for getting started in the world of offensive cybersecurity
   - [_Sauce_ code](#-sauce-code)
 - [Getting started](#-getting-started)
 - [Examples](#-examples)
+
+## 🥇 Honorary mention
+
+MisterChef was created by the author under the academic validation of the **University of Vigo** in the form of a Final Degree Project.
 
 ## 🍅 Disclaimer
 
@@ -40,23 +45,23 @@ It is recommended that use be limited to controlled environments and/or penetrat
 
 ## 🥤 Download and install
 
-Download and install **Masterchef Framework** quickly with the steps described here.
+Download and install **Misterchef Framework** quickly with the steps described here.
 
 ### 🥡 Compiled version
 
-Click the button below to download the **Masterchef** binary.
+Click the button below to download the **Misterchef** binary.
 
 <div>
 &nbsp;&nbsp;&nbsp;
-<a href="https://github.com/cosasdepuma/Masterchef/releases/download/v0.1.0-tfg/masterchef-0.1.0.exe"><img alt="Windows" src="https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/download/windows.png" width="100" /></a>
-<a href="https://github.com/cosasdepuma/Masterchef/releases/download/v0.1.0-tfg/masterchef-0.1.0.dmg"><img alt="Mac" src="https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/download/macos.png" width="100" /></a>
-<a href="https://github.com/cosasdepuma/Masterchef/releases/download/v0.1.0-tfg/masterchef-0.1.0.elf"><img alt="Linux" src="https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/download/linux.png" width="100" /></a>
+<a href="https://github.com/cosasdepuma/Misterchef/releases/download/v0.1.0-tfg/misterchef-0.1.0.exe"><img alt="Windows" src="https://github.com/cosasdepuma/Misterchef/raw/main/.github/README/download/windows.png" width="100" /></a>
+<a href="https://github.com/cosasdepuma/Misterchef/releases/download/v0.1.0-tfg/misterchef-0.1.0.dmg"><img alt="Mac" src="https://github.com/cosasdepuma/Misterchef/raw/main/.github/README/download/macos.png" width="100" /></a>
+<a href="https://github.com/cosasdepuma/Misterchef/releases/download/v0.1.0-tfg/misterchef-0.1.0.elf"><img alt="Linux" src="https://github.com/cosasdepuma/Misterchef/raw/main/.github/README/download/linux.png" width="100" /></a>
 <br><br>
 </div>
 
-Don't see your operating system here? Try one of the [other downloads](https://github.com/cosasdepuma/Masterchef/releases).
+Don't see your operating system here? Try one of the [other downloads](https://github.com/cosasdepuma/Misterchef/releases).
 
-**Masterchef binary requires no installation or dependencies**.
+**Misterchef binary requires no installation or dependencies**.
 
 ### 🥣 Go
 
@@ -65,25 +70,25 @@ Don't see your operating system here? Try one of the [other downloads](https://g
 Install the application using **go get**:
 
 ```sh
-go install github.com/cosasdepuma/masterchef@latest
+go install github.com/cosasdepuma/misterchef@latest
 ```
 
 ### 🐟 Docker
 
-It is possible to compile and run **Masterchef** in a container using **docker**:
+It is possible to compile and run **Misterchef** in a container using **docker**:
 
 ```sh
 # Download the container from Docker Hub
-docker pull cosasdepuma/masterchef
+docker pull cosasdepuma/misterchef
 
 # Run the container
-docker run --name masterchef -d -p 7767:7767 cosasdepuma/masterchef
+docker run --name misterchef -d -p 7767:7767 cosasdepuma/misterchef
 ```
 
-Alternatively, you can pull up the **Masterchef** service, as well as its documentation, using **docker-compose**:
+Alternatively, you can pull up the **Misterchef** service, as well as its documentation, using **docker-compose**:
 
 ```sh
-cd masterchef/
+cd misterchef/
 docker-compose up
 ```
 
@@ -91,33 +96,33 @@ docker-compose up
 
 If you are a ~~paranoid~~ _sybarite_, you can download and install the program yourself from the source code.
 
-[Download](https://github.com/cosasdepuma/Masterchef/archive/refs/heads/main.zip) or clone the repository using **git**:
+[Download](https://github.com/cosasdepuma/Misterchef/archive/refs/heads/main.zip) or clone the repository using **git**:
 
 ```sh
-git clone https://github.com/cosasdepuma/Masterchef
+git clone https://github.com/cosasdepuma/Misterchef
 ```
 
 Compile the code:
 
 ```sh
-cd masterchef/
+cd misterchef/
 
 # Manually
-yarn --cwd frontend install
-yarn --cwd frontend run compile
+npm --prefix frontend install
+npm --prefix frontend run compile
 cd backend/
 export GOOS=linux     # windows, darwin...
 export GOARCH=amd64   # 386, arm, arm64...
-go build -a -ldflags="-s -w -extldflags \"-static\"" -o ../dist/masterchef main.go
+go build -a -ldflags="-s -w -extldflags \"-static\"" -o ../dist/misterchef main.go
 cd ..
-upx -9 --ultra-brute dist/masterchef # optional
+upx -9 --ultra-brute dist/misterchef # optional
 
 # Automatically
 make clean
 make
 
 # Using Docker
-docker build -t cosasdepuma:masterchef .
+docker build -t cosasdepuma:misterchef .
 ```
 
 ## 🍴 Getting started
@@ -125,7 +130,7 @@ docker build -t cosasdepuma:masterchef .
 Run the application by double clicking or using the console:
 
 ```sh
-./masterchef
+./misterchef
 ```
 
 It is possible to modify the address and the number of threads per request using **environment variables**:
@@ -139,8 +144,8 @@ Once the application is started, access the displayed web address. By default, i
 
 If everything works correctly, the following interface will be shown:
 
-![Interface](https://github.com/cosasdepuma/Masterchef/raw/main/.github/README/screenshot/interface.png)
+![Interface](https://github.com/cosasdepuma/Misterchef/raw/main/.github/README/screenshot/interface.png)
 
 ## 📚 Examples
 
-You can find recipes with examples of functionality in the [cookbook](https://github.com/CosasDePuma/Masterchef/tree/main/cookbook) folder.
+You can find recipes with examples of functionality in the [cookbook](https://github.com/CosasDePuma/Misterchef/tree/main/cookbook) folder.

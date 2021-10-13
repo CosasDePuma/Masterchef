@@ -7,11 +7,11 @@ import (
 
 	"github.com/valyala/fasthttp"
 
-	"github.com/cosasdepuma/masterchef/backend/app/config"
-	"github.com/cosasdepuma/masterchef/backend/app/server/client"
-	"github.com/cosasdepuma/masterchef/backend/app/server/middlewares"
-	"github.com/cosasdepuma/masterchef/backend/app/server/routes"
-	"github.com/cosasdepuma/masterchef/backend/public"
+	"github.com/cosasdepuma/misterchef/backend/app/config"
+	"github.com/cosasdepuma/misterchef/backend/app/server/client"
+	"github.com/cosasdepuma/misterchef/backend/app/server/middlewares"
+	"github.com/cosasdepuma/misterchef/backend/app/server/routes"
+	"github.com/cosasdepuma/misterchef/backend/public"
 )
 
 // API indicates the path and version relative to them
@@ -56,7 +56,7 @@ func newRouter(conf *config.Config) func(ctx *fasthttp.RequestCtx) {
 			}
 		case fasthttp.MethodPost:
 			// check path & user-agent
-			if !strings.HasPrefix(path, API) || !bytes.EqualFold(ctx.Request.Header.Peek("X-Powered-By"), []byte("Masterchef!")) {
+			if !strings.HasPrefix(path, API) || !bytes.EqualFold(ctx.Request.Header.Peek("X-Powered-By"), []byte("Misterchef!")) {
 				ctx.SetStatusCode(fasthttp.StatusNotFound)
 			} else {
 				// api

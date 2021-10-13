@@ -1,6 +1,6 @@
 ---
 name: Report a bug
-about: Create a report to help Masterchef improve
+about: Create a report to help Misterchef improve
 title: "\U0001F41B Fix ..."
 labels: bug
 assignees: CosasDePuma

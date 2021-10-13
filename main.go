@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/cosasdepuma/masterchef/backend/cmd"
+	"github.com/cosasdepuma/misterchef/backend/cmd"
 )
 
 func main() {
