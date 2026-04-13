@@ -4,7 +4,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import { version } from "../package.json";
 
-global.Misterchef = { version };
+global.Masterchef = { version };
 
 Vue.config.productionTip = false;
 new Vue({

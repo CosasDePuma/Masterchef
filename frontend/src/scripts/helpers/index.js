@@ -2,7 +2,7 @@
 
 const headers = new Headers({
   "Content-Type": "application/json",
-  "X-Powered-By": "Misterchef!",
+  "X-Powered-By": "Masterchef!",
 });
 
 const config = {
@@ -66,7 +66,7 @@ export function save(editor) {
     const blob = new Blob([JSON.stringify(editor.toJSON())]);
     const uri = URL.createObjectURL(blob);
     const element = document.createElement("a");
-    element.setAttribute("download", "misterchef.recipe");
+    element.setAttribute("download", "masterchef.recipe");
     element.setAttribute("href", uri);
     element.click();
     URL.revokeObjectURL(uri);

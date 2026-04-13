@@ -1,4 +1,4 @@
-module github.com/cosasdepuma/misterchef
+module github.com/cosasdepuma/masterchef
 
 go 1.16
 

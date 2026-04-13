@@ -1,5 +1,16 @@
-# Files
-/**/*.log
-# Folders
-/**/dist/
-/**/node_modules/
+**/*~
+**/*.bck
+**/*.env
+**/*.local.*
+**/*.log
+**/*.pyc
+**/*.swp
+**/.desktop.ini
+**/.direnv/
+**/.DS_Store
+**/.idea/
+**/__pycache__/
+**/build/
+**/dist/
+**/node_modules/
+**/result/

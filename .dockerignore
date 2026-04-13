@@ -1,10 +1,11 @@
-# Files
-/**/*.md
-/**/*.log
-/**/version
-/**/LICENSE
-/**/Makefile
-/**/swagger.yml
-# Folders
-/**/dist/
-/**/node_modules/
+**/*.md
+**/*.log
+**/.desktop.ini
+**/.DS_Store
+**/.github/
+**/dist/
+**/LICENSE
+**/Makefile
+**/node_modules/
+**/swagger.yml
+**/version

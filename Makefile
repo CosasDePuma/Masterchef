@@ -1,5 +1,5 @@
 # App
-APPNAME		= misterchef
+APPNAME		= masterchef
 VERSION		= $(shell cat version)
 FRONTEND	= frontend
 BACKEND		= backend
